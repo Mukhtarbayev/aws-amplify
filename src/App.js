@@ -10,6 +10,8 @@ import awsconfig from './aws-exports'
 
 Amplify.configure(awsconfig)
 Auth.configure(awsconfig)
+API.configure(awsconfig)
+Storage.configure(awsconfig)
 
 const initialFormState = { name: '', description: '' }
 
