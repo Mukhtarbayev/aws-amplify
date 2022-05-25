@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
-// import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
-import { API, Storage } from 'aws-amplify';
-import { listNotes } from './graphql/queries';
-import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+import {API, Storage} from 'aws-amplify';
+import {listNotes} from './graphql/queries';
+import {createNote as createNoteMutation, deleteNote as deleteNoteMutation} from './graphql/mutations';
+import Amplify from '@aws-amplify/core'
+import { Auth } from '@aws-amplify/auth'
+import awsconfig from './aws-exports'
+
+Amplify.configure(awsconfig)
+Auth.configure(awsconfig)
 
 const initialFormState = { name: '', description: '' }
 
@@ -20,7 +26,7 @@ function App() {
         const file = e.target.files[0];
         setFormData({ ...formData, image: file.name });
         await Storage.put(file.name, file);
-        await fetchNotes();
+        fetchNotes();
     }
 
     async function fetchNotes() {
@@ -45,6 +51,7 @@ function App() {
         }
         setNotes([ ...notes, formData ]);
         setFormData(initialFormState);
+        await fetchNotes()
     }
 
     async function deleteNote({ id }) {
@@ -79,15 +86,14 @@ function App() {
                             <p>{note.description}</p>
                             <button onClick={() => deleteNote(note)}>Delete note</button>
                             {
-                                note.image && <img src={note.image} style={{width: 400}} />
+                                note.image && <img src={note.image} style={{width: 400}} alt={"note"}/>
                             }
                         </div>
                     ))
                 }
             </div>
-
+            <AmplifySignOut/>
         </div>
     );
 }
-export default App;
-// export default withAuthenticator(App);
+export default withAuthenticator(App);
