@@ -1,0 +1,14 @@
+{
+  "resourceName": "notesapp",
+  "policyUUID": "4a7db767",
+  "bucketName": "awsamplifynotesapp",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}
